@@ -35,6 +35,14 @@ export class TasksComponent implements OnInit, OnDestroy {
       this.loadUser();
       this.loadTasks();
     });
+
+    // Subscribe to query parameters to sync filter state
+    this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe((queryParams) => {
+      const filter = queryParams['filter'] as 'all' | 'pending' | 'completed';
+      if (filter && ['all', 'pending', 'completed'].includes(filter)) {
+        this.currentFilter = filter;
+      }
+    });
   }
 
   ngOnDestroy() {
@@ -84,6 +92,13 @@ export class TasksComponent implements OnInit, OnDestroy {
     this.currentFilter = filter;
     // Clear selection when changing filters to avoid confusion
     this.selectedTask = null;
+    
+    // Update query parameters in the URL
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { filter },
+      queryParamsHandling: 'merge'
+    });
   }
 
   getFilteredTasks(): Task[] {
