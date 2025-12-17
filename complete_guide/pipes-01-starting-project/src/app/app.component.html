@@ -1,0 +1,37 @@
+<main>
+  <article class="temperatures">
+    <header>
+      <img src="temp-icon.png" alt="Thermometer icon" />
+      <div>
+        <h2>Current Temperatures</h2>
+        <p>{{ currentDate | date : "medium" }}</p>
+      </div>
+    </header>
+    <p>
+      New York:
+      {{
+        currentTemperatures.newYork | number : "1.1-2" | temp : "cel" : "fah"
+      }}
+    </p>
+    <p>Berlin: {{ currentTemperatures.berlin | temp : "cel" : "fah" }}</p>
+    <p>Paris: {{ currentTemperatures.paris | temp : "cel" : "fah" }}</p>
+    <p>Chicago: {{ currentTemperatures.chicago | temp : "cel" : "fah" }}</p>
+  </article>
+
+  <article class="temperatures">
+    <header>
+      <img src="temp-icon.png" alt="Thermometer icon" />
+      <div>
+        <h2>Historic Temperatures</h2>
+        <p>Berlin</p>
+      </div>
+    </header>
+    <ul>
+      @for (temperature of historicTemperatures | sort; track temperature) {
+      <li (click)="onReset($index)">
+        {{ temperature | temp : "cel" : "fah" }}
+      </li>
+      }
+    </ul>
+  </article>
+</main>

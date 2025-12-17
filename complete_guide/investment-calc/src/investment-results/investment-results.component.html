@@ -1,0 +1,22 @@
+<table>
+  <thead>
+    <tr>
+      <th>Year</th>
+      <th>Interest</th>
+      <th>Value End of Year</th>
+      <th>Annual Investment</th>
+      <th>Total Interest</th>
+      <th>Total Amount Invested</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of userInputService.annualData">
+      <td>{{ data.year }}</td>
+      <td>{{ data.interest | currency }}</td>
+      <td>{{ data.valueEndOfYear | currency }}</td>
+      <td>{{ data.annualInvestment | currency }}</td>
+      <td>{{ data.totalInterest | currency }}</td>
+      <td>{{ data.totalAmountInvested | currency }}</td>
+    </tr>
+  </tbody>
+</table>

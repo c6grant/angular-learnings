@@ -1,0 +1,8 @@
+# Creating a new project
+ng new my-project
+
+# Start server
+npm start
+
+# CLI to create a new componenent
+ng g c [component_name]

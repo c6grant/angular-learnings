@@ -1,0 +1,17 @@
+## Project 1 — Personal Portfolio / Resume Site
+
+**Why start here:** A portfolio site is simple, but helps you practice Angular basics (components, routing, styling),
+and gives you something you can show potential employers.
+[Relia Software+2GeeksforGeeks+2](https://reliasoftware.com/blog/angular-projects?utm_source=chatgpt.com)
+
+**Requirements / Features**
+
+- A clean home page showing your name, short bio, skills, contact info.
+- A “Projects” page listing out your other Angular apps (with title, short description, link, screenshot).
+- A “Contact / About” page (or section) — maybe with a form (not necessarily functional) or at least a mailto link.
+- Use Angular routing to navigate between pages (e.g. `/`, `/projects`, `/contact`).
+- Use component-based structure: a component for header/navigation, maybe a footer, a project-card component for each project listing, etc.
+- Use CSS/SCSS (or a framework like Tailwind / Bootstrap) to make it responsive and polished.
+- Put the code in a GitHub repo — good practice for version control & portfolio showcase.
+
+**What you’ll practice:** Angular CLI project setup, components, templates, styling, routing.

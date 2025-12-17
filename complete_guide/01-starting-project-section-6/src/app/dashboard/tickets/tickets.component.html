@@ -1,0 +1,12 @@
+<div>
+  <ul>
+    <li *ngFor="let ticket of tickets">
+      <app-ticket [data]="ticket" (close)="onCloseTicket(ticket.id)" />
+    </li>
+    <li *ngIf="tickets.length === 0">No tickets found.</li>
+  </ul>
+</div>
+
+<div id="new-ticket">
+  <app-new-ticket (add)="onAdd($event)" />
+</div>
