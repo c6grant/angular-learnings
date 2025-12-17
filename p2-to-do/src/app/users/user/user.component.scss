@@ -1,0 +1,45 @@
+.card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  }
+}
+
+.card-body {
+  padding: 2rem;
+  text-align: center;
+  
+  .user-avatar {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 50%;
+    margin: 0 auto 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 2rem;
+    font-weight: bold;
+  }
+  
+  .card-title {
+    margin: 0 0 0.5rem 0;
+    color: #333;
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+  
+  .user-email {
+    margin: 0;
+    color: #666;
+    font-size: 0.875rem;
+  }
+}

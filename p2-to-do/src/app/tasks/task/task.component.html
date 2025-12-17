@@ -1,0 +1,30 @@
+<div class="task-item" 
+     [class.selected]="isSelected" 
+     [class.completed]="task.completed"
+     (click)="onTaskClick()">
+  
+  <div class="task-checkbox">
+    <input 
+      type="checkbox" 
+      [checked]="task.completed" 
+      (change)="onToggleComplete($event)"
+      (click)="$event.stopPropagation()">
+  </div>
+  
+  <div class="task-content">
+    <div class="task-header">
+      <h4 class="task-title" [class.completed]="task.completed">
+        {{ task.title }}
+      </h4>
+      <span [class]="getPriorityClass()">{{ task.priority }}</span>
+    </div>
+    
+    <p class="task-description">{{ task.description }}</p>
+    
+    <div class="task-meta">
+      <span class="due-date" [class.overdue]="isOverdue()">
+        {{ formatDueDate() }}
+      </span>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,123 @@
+.task-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid #e9ecef;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background-color: #f8f9fa;
+  }
+  
+  &.selected {
+    background: linear-gradient(135deg, #e7f3ff 0%, #f0f8ff 100%);
+    border-left: 4px solid #007bff;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+  }
+  
+  &.completed {
+    opacity: 0.7;
+    
+    .task-content {
+      .task-title {
+        text-decoration: line-through;
+        color: #6c757d;
+      }
+    }
+  }
+  
+  .task-checkbox {
+    margin-top: 0.25rem;
+    
+    input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      accent-color: #007bff;
+    }
+  }
+  
+  .task-content {
+    flex: 1;
+    
+    .task-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.75rem;
+      
+      .task-title {
+        margin: 0;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #333;
+        flex: 1;
+        line-height: 1.3;
+        
+        &.completed {
+          text-decoration: line-through;
+          color: #6c757d;
+        }
+      }
+      
+      span {
+        padding: 0.25rem 0.75rem;
+        border-radius: 16px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-left: 1rem;
+        
+        &.priority-high {
+          background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+          color: #721c24;
+        }
+        
+        &.priority-medium {
+          background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+          color: #856404;
+        }
+        
+        &.priority-low {
+          background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%);
+          color: #0c5460;
+        }
+      }
+    }
+    
+    .task-description {
+      margin: 0 0 1rem 0;
+      color: #666;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    
+    .task-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      
+      .due-date {
+        font-size: 0.8rem;
+        color: #6c757d;
+        background: #f8f9fa;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        font-weight: 500;
+        
+        &.overdue {
+          background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+          color: #721c24;
+          font-weight: 600;
+        }
+      }
+    }
+  }
+}

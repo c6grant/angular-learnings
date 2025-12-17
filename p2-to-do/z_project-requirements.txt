@@ -1,0 +1,35 @@
+## Project 2 — Task Manager / To-Do / Notes App
+
+**Why:** This is still relatively simple but adds user interaction, state, form(s),
+CRUD within the UI, and data persistence (e.g., local storage).
+Many Angular learning resources list this kind of app as a beginner → intermediate project.
+[upGrad+2Java Assignment Help+2]
+(https://www.upgrad.com/blog/angular-project-ideas-topics-for-freshers/?utm_source=chatgpt.com)
+
+**Requirements / Features**
+
+- Display a list of tasks (or notes), each with a title, description (optional), status (e.g. “todo / done”), maybe a due date.
+- Ability to **create**, **edit**, **delete**, and **mark as done/undone** tasks.
+- Use reactive forms (or template-driven forms) to accept user input for creating or editing a task.
+- Persist data using browser local storage so tasks survive page reloads.
+- Implement sorting/filtering (e.g. show only “todo”, only “done”, sort by due date, etc.).
+- Optional but nice: allow toggling light/dark mode; maybe some simple animations (e.g. fade out removed task).
+
+**What you’ll practice:** Forms, component interaction, services (for managing data), state management (in-memory + local storage),
+structural directives (e.g. *ngFor, *ngIf), two-way binding / reactive forms, user interaction.
+
+## Vision
+
+# Routes
+- '/': A simple home page
+- '/users': Shows list of users
+    - this should show list of existing users with option to add new user
+    - add new user button should just have a pop-up form to enter user details (name, email, etc) then redirect to that users task list
+- '/tasks/:uid': Tasks for specific user
+    - shows list of tasks for that user
+    - tasks should show preview on a sidebar and show details on main area when clicked
+    - Use automatic saving when editing task details (no save button)
+    - option to add new task (pop-up form)
+    - each task should have options to edit, delete, mark done/undone'
+    - include filtering/sorting options (use query params for this)
+- '/tasks/:uid/:taskId': Specific task details

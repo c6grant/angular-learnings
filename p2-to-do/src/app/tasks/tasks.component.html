@@ -1,0 +1,145 @@
+<div class="tasks-container">
+  <!-- User Context Header -->
+  <div class="user-context">
+    <div class="user-info">
+      <button class="back-btn" (click)="goBack()">
+        ← Back to Users
+      </button>
+      @if (user) {
+        <div class="user-details">
+          <div class="user-avatar">
+            {{ user.name.charAt(0).toUpperCase() }}
+          </div>
+          <div class="user-text">
+            <h2>{{ user.name }}'s Tasks</h2>
+            <p class="user-email">{{ user.email }}</p>
+          </div>
+        </div>
+      }
+    </div>
+    <button class="add-task-btn">+ Add Task</button>
+  </div>
+  
+  <!-- Task Summary Cards -->
+  <div class="task-summary">
+    <div class="summary-card">
+      <div class="summary-number">{{ tasks.length }}</div>
+      <div class="summary-label">Total Tasks</div>
+    </div>
+    <div class="summary-card">
+      <div class="summary-number">{{ getCompletedCount() }}</div>
+      <div class="summary-label">Completed</div>
+    </div>
+    <div class="summary-card">
+      <div class="summary-number">{{ getPendingCount() }}</div>
+      <div class="summary-label">Pending</div>
+    </div>
+    <div class="summary-card">
+      <div class="summary-number">{{ getOverdueCount() }}</div>
+      <div class="summary-label">Overdue</div>
+    </div>
+  </div>
+  
+  <div class="tasks-content">
+    <!-- Tasks List -->
+    <div class="tasks-list">
+      <div class="tasks-list-header">
+        <h3>Tasks</h3>
+        <div class="filter-options">
+          <span class="filter-item" [class.active]="currentFilter === 'all'" (click)="setFilter('all')">All</span>
+          <span class="filter-item" [class.active]="currentFilter === 'pending'" (click)="setFilter('pending')">Active</span>
+          <span class="filter-item" [class.active]="currentFilter === 'completed'" (click)="setFilter('completed')">Completed</span>
+        </div>
+      </div>
+      
+      <div class="tasks-items">
+        @if (getFilteredTasks().length === 0 && tasks.length === 0) {
+          <div class="no-tasks">
+            <div class="no-tasks-icon">📝</div>
+            <h4>No tasks yet</h4>
+            <p>{{ user?.name }} hasn't created any tasks. Click "Add Task" to get started!</p>
+          </div>
+        } @else if (getFilteredTasks().length === 0) {
+          <div class="no-tasks">
+            <div class="no-tasks-icon">🔍</div>
+            <h4>No {{ currentFilter }} tasks</h4>
+            <p>Try switching to a different filter to see more tasks.</p>
+          </div>
+        } @else {
+          @for (task of getFilteredTasks(); track task.id) {
+            <app-task 
+              [task]="task" 
+              [isSelected]="selectedTask?.id === task.id"
+              (taskClick)="onTaskSelect($event)"
+              (taskToggle)="onTaskToggle($event)">
+            </app-task>
+          }
+        }
+      </div>
+    </div>
+    
+    <!-- Task Details -->
+    <div class="task-details">
+      <div class="detail-header">
+        <h3>{{ selectedTask ? 'Task Details' : 'Task Details' }}</h3>
+        @if (selectedTask) {
+          <div class="task-actions">
+            <button class="edit-btn">✏️ Edit</button>
+            <button class="delete-btn">🗑️ Delete</button>
+          </div>
+        }
+      </div>
+      
+      @if (selectedTask) {
+        <div class="detail-content">
+          <div class="detail-section">
+            <label>Title:</label>
+            <h4 [class.completed]="selectedTask.completed">{{ selectedTask.title }}</h4>
+          </div>
+          
+          <div class="detail-section">
+            <label>Description:</label>
+            <p>{{ selectedTask.description || 'No description provided' }}</p>
+          </div>
+          
+          <div class="detail-section">
+            <label>Status:</label>
+            <span [class]="selectedTask.completed ? 'status-completed' : 'status-pending'">
+              {{ selectedTask.completed ? '✅ Completed' : '⏳ Pending' }}
+            </span>
+          </div>
+          
+          <div class="detail-section">
+            <label>Priority:</label>
+            <span [class]="'priority-' + selectedTask.priority">
+              {{ getPriorityIcon(selectedTask.priority) }} {{ selectedTask.priority | titlecase }}
+            </span>
+          </div>
+          
+          <div class="detail-section">
+            <label>Due Date:</label>
+            <span [class.overdue]="isOverdue(selectedTask)">
+              {{ selectedTask.dueDate ? (selectedTask.dueDate | date:'mediumDate') : 'No due date' }}
+            </span>
+          </div>
+          
+          <div class="detail-section">
+            <label>Created:</label>
+            <span>{{ selectedTask.createdAt | date:'short' }}</span>
+          </div>
+          
+          <div class="detail-section">
+            <label>Last Updated:</label>
+            <span>{{ selectedTask.updatedAt | date:'short' }}</span>
+          </div>
+        </div>
+      } @else {
+        <div class="no-selection">
+          <div class="no-selection-icon">👆</div>
+          <h4>Select a task to view details</h4>
+          <p>Click on any task from the list to see more information and manage it.</p>
+        </div>
+      }
+    </div>
+  </div>
+</div>

@@ -1,0 +1,9 @@
+<div class="card">
+  <div class="card-body" [routerLink]="[user.id]">
+    <div class="user-avatar">
+      {{ user.name.charAt(0).toUpperCase() }}
+    </div>
+    <h5 class="card-title">{{ user.name }}</h5>
+    <p class="user-email">{{ user.email }}</p>
+  </div>
+</div>
