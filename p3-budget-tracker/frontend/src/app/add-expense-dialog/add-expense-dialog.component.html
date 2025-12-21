@@ -1,0 +1,41 @@
+<h2 mat-dialog-title>Add New Expense</h2>
+<mat-dialog-content>
+  <form>
+    <br>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Description</mat-label>
+      <input matInput [(ngModel)]="expenseData.description" name="description" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Amount</mat-label>
+      <input matInput type="number" [(ngModel)]="expenseData.amount" name="amount" required>
+      <span matPrefix>$&nbsp;</span>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Category</mat-label>
+      <mat-select [(ngModel)]="expenseData.category_id" name="category" required>
+        @for (category of data.categories; track category.id) {
+          <mat-option [value]="category.id">{{ category.category }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Date</mat-label>
+      <input matInput [matDatepicker]="picker" [(ngModel)]="expenseData.date_of_expense" name="date" required>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Note (Optional)</mat-label>
+      <textarea matInput [(ngModel)]="expenseData.note" name="note" rows="3"></textarea>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!isValid()">Add Expense</button>
+</mat-dialog-actions>

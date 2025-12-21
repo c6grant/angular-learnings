@@ -1,0 +1,82 @@
+.sidenav-container {
+  height: 100vh;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.demo-container {
+  padding: 20px;
+}
+
+.tab-content {
+  padding: 20px;
+}
+
+.chart-container {
+  position: relative;
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.mat-mdc-row:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.note-text {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+  }
+}
+
+.note-input {
+  width: 100%;
+  padding: 4px 8px;
+  border: 2px solid #3f51b5;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: inherit;
+  outline: none;
+
+  &:focus {
+    border-color: #303f9f;
+  }
+}
+
+.category-text {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+  }
+}
+
+.category-select {
+  width: 100%;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.sortable-header {
+  cursor: pointer;
+  user-select: none;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+  }
+}

@@ -1,0 +1,376 @@
+<!--
+  ANGULAR MATERIAL DEMO - Learn how to build beautiful UIs with minimal CSS
+
+  Key Concepts:
+  1. Material components provide pre-styled, accessible UI elements
+  2. Use built-in spacing utilities and Material's layout system
+  3. Minimal custom CSS needed - Material handles most styling
+  4. Components are responsive by default
+-->
+
+<!-- SIDENAV CONTAINER - Drawer navigation -->
+<mat-sidenav-container class="sidenav-container">
+
+  <!-- SIDENAV - Sliding navigation drawer -->
+  <mat-sidenav #sidenav mode="over" [(opened)]="sidenavOpened">
+    <mat-toolbar color="accent">
+      <span>Menu</span>
+      <span class="spacer"></span>
+      <button mat-icon-button (click)="toggleSidenav()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-toolbar>
+
+    <mat-nav-list>
+      <mat-list-item (click)="toggleSidenav()">
+        <mat-icon matListItemIcon>home</mat-icon>
+        <span matListItemTitle>Home</span>
+      </mat-list-item>
+
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <!-- MAIN CONTENT -->
+  <mat-sidenav-content>
+    <!-- TOOLBAR - Navigation header with minimal effort -->
+    <mat-toolbar color="primary">
+      <button mat-icon-button (click)="toggleSidenav()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span>Budget Tracker Demo</span>
+      <span class="spacer"></span>
+    </mat-toolbar>
+
+    <!-- MAIN CONTENT with Material's spacing -->
+    <div class="demo-container">
+
+  <!-- TABS - Organize content without building complex layouts -->
+  <mat-tab-group [(selectedIndex)]="selectedTabIndex" (selectedIndexChange)="onTabChange($event)">
+
+    <!-- TAB 1: CARDS & FORMS -->
+    <mat-tab label="Dashboard">
+      <div class="tab-content">
+        <h2>Expenditure by Category</h2>
+        <div class="chart-container">
+          <canvas #expenseChart></canvas>
+        </div>
+
+        <h2>Spending Trend Over Time</h2>
+        <div class="chart-container">
+          <canvas #spendingTrendChart></canvas>
+        </div>
+      </div>
+    </mat-tab>
+
+    <!-- TAB 2: LISTS & TABLES -->
+    <mat-tab label="Expenses">
+      <div class="tab-content">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <h2>Expenses by Pay Period</h2>
+          <button mat-fab color="primary" (click)="openAddExpenseDialog()" aria-label="Add expense">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+
+        <!-- Future Periods Section -->
+        @if (futurePeriods.length > 0) {
+          <h3>Future Periods</h3>
+          <mat-accordion class="pay-period-accordion">
+            @for (period of futurePeriods; track period.title) {
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    {{ period.title }}
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    Total: {{ period.total | currency }} | {{ period.expenses.length }} expenses
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <table mat-table [dataSource]="period.expenses" class="mat-elevation-z2">
+                  <!-- Date Column -->
+                  <ng-container matColumnDef="date_of_expense">
+                    <th mat-header-cell *matHeaderCellDef (click)="onSort('date_of_expense')" class="sortable-header">
+                      Date {{ getSortIcon('date_of_expense') }}
+                    </th>
+                    <td mat-cell *matCellDef="let expense">{{ expense.date_of_expense | date: 'short' }}</td>
+                  </ng-container>
+
+                  <!-- Description Column -->
+                  <ng-container matColumnDef="description">
+                    <th mat-header-cell *matHeaderCellDef (click)="onSort('description')" class="sortable-header">
+                      Description {{ getSortIcon('description') }}
+                    </th>
+                    <td mat-cell *matCellDef="let expense">{{ expense.description }}</td>
+                  </ng-container>
+
+                  <!-- Amount Column -->
+                  <ng-container matColumnDef="amount">
+                    <th mat-header-cell *matHeaderCellDef (click)="onSort('amount')" class="sortable-header">
+                      Amount {{ getSortIcon('amount') }}
+                    </th>
+                    <td mat-cell *matCellDef="let expense">{{ expense.amount | currency }}</td>
+                  </ng-container>
+
+                  <!-- Category Column -->
+                  <ng-container matColumnDef="category_name">
+                    <th mat-header-cell *matHeaderCellDef (click)="onSort('category_name')" class="sortable-header">
+                      Category {{ getSortIcon('category_name') }}
+                    </th>
+                    <td mat-cell *matCellDef="let expense">
+                      @if (isEditingCategory(expense.id)) {
+                        <mat-select
+                          [(ngModel)]="expense.category_id"
+                          (selectionChange)="stopEditingCategory(expense)"
+                          class="category-select"
+                        >
+                          @for (category of categories; track category.id) {
+                            <mat-option [value]="category.id">
+                              {{ category.category }}
+                            </mat-option>
+                          }
+                        </mat-select>
+                      } @else {
+                        <span (click)="startEditingCategory(expense.id)" class="category-text">
+                          {{ expense.category_name }}
+                        </span>
+                      }
+                    </td>
+                  </ng-container>
+
+                  <!-- Note Column -->
+                  <ng-container matColumnDef="note">
+                    <th mat-header-cell *matHeaderCellDef (click)="onSort('note')" class="sortable-header">
+                      Note {{ getSortIcon('note') }}
+                    </th>
+                    <td mat-cell *matCellDef="let expense">
+                      @if (isEditingNote(expense.id)) {
+                        <input
+                          type="text"
+                          [(ngModel)]="expense.note"
+                          (blur)="stopEditingNote()"
+                          (keydown.enter)="stopEditingNote()"
+                          (keydown.escape)="stopEditingNote()"
+                          class="note-input"
+                          #noteInput
+                        />
+                      } @else {
+                        <span (dblclick)="startEditingNote(expense.id)" class="note-text">
+                          {{ expense.note || '---'}}
+                        </span>
+                      }
+                    </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+              </mat-expansion-panel>
+            }
+          </mat-accordion>
+        }
+
+        <!-- Current Period Section -->
+        @if (currentPeriod) {
+          <h3>Current Period</h3>
+          <mat-accordion class="pay-period-accordion">
+            <mat-expansion-panel [expanded]="true">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  {{ currentPeriod.title }}
+                </mat-panel-title>
+                <mat-panel-description>
+                  Total: {{ currentPeriod.total | currency }} | {{ currentPeriod.expenses.length }} expenses
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+
+              <table mat-table [dataSource]="currentPeriod.expenses" class="mat-elevation-z2">
+                <!-- Date Column -->
+                <ng-container matColumnDef="date_of_expense">
+                  <th mat-header-cell *matHeaderCellDef (click)="onSort('date_of_expense')" class="sortable-header">
+                    Date {{ getSortIcon('date_of_expense') }}
+                  </th>
+                  <td mat-cell *matCellDef="let expense">{{ expense.date_of_expense | date: 'short' }}</td>
+                </ng-container>
+
+                <!-- Description Column -->
+                <ng-container matColumnDef="description">
+                  <th mat-header-cell *matHeaderCellDef (click)="onSort('description')" class="sortable-header">
+                    Description {{ getSortIcon('description') }}
+                  </th>
+                  <td mat-cell *matCellDef="let expense">{{ expense.description }}</td>
+                </ng-container>
+
+                <!-- Amount Column -->
+                <ng-container matColumnDef="amount">
+                  <th mat-header-cell *matHeaderCellDef (click)="onSort('amount')" class="sortable-header">
+                    Amount {{ getSortIcon('amount') }}
+                  </th>
+                  <td mat-cell *matCellDef="let expense">{{ expense.amount | currency }}</td>
+                </ng-container>
+
+                <!-- Category Column -->
+                <ng-container matColumnDef="category_name">
+                  <th mat-header-cell *matHeaderCellDef (click)="onSort('category_name')" class="sortable-header">
+                    Category {{ getSortIcon('category_name') }}
+                  </th>
+                  <td mat-cell *matCellDef="let expense">
+                    @if (isEditingCategory(expense.id)) {
+                      <mat-select
+                        [(ngModel)]="expense.category_id"
+                        (selectionChange)="stopEditingCategory(expense)"
+                        class="category-select"
+                      >
+                        @for (category of categories; track category.id) {
+                          <mat-option [value]="category.id">
+                            {{ category.category }}
+                          </mat-option>
+                        }
+                      </mat-select>
+                    } @else {
+                      <span (click)="startEditingCategory(expense.id)" class="category-text">
+                        {{ expense.category_name }}
+                      </span>
+                    }
+                  </td>
+                </ng-container>
+
+                <!-- Note Column -->
+                <ng-container matColumnDef="note">
+                  <th mat-header-cell *matHeaderCellDef (click)="onSort('note')" class="sortable-header">
+                    Note {{ getSortIcon('note') }}
+                  </th>
+                  <td mat-cell *matCellDef="let expense">
+                    @if (isEditingNote(expense.id)) {
+                      <input
+                        type="text"
+                        [(ngModel)]="expense.note"
+                        (blur)="stopEditingNote()"
+                        (keydown.enter)="stopEditingNote()"
+                        (keydown.escape)="stopEditingNote()"
+                        class="note-input"
+                        #noteInput
+                      />
+                    } @else {
+                      <span (dblclick)="startEditingNote(expense.id)" class="note-text">
+                        {{ expense.note || '---'}}
+                      </span>
+                    }
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+            </mat-expansion-panel>
+          </mat-accordion>
+        }
+
+        <!-- Past Periods Section -->
+        @if (pastPeriods.length > 0) {
+          <h3>Past Periods</h3>
+          <mat-accordion class="pay-period-accordion">
+            @for (period of pastPeriods; track period.title) {
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    {{ period.title }}
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    Total: {{ period.total | currency }} | {{ period.expenses.length }} expenses
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <table mat-table [dataSource]="period.expenses" class="mat-elevation-z2">
+                  <!-- Date Column -->
+                  <ng-container matColumnDef="date_of_expense">
+                    <th mat-header-cell *matHeaderCellDef (click)="onSort('date_of_expense')" class="sortable-header">
+                      Date {{ getSortIcon('date_of_expense') }}
+                    </th>
+                    <td mat-cell *matCellDef="let expense">{{ expense.date_of_expense | date: 'short' }}</td>
+                  </ng-container>
+
+                  <!-- Description Column -->
+                  <ng-container matColumnDef="description">
+                    <th mat-header-cell *matHeaderCellDef (click)="onSort('description')" class="sortable-header">
+                      Description {{ getSortIcon('description') }}
+                    </th>
+                    <td mat-cell *matCellDef="let expense">{{ expense.description }}</td>
+                  </ng-container>
+
+                  <!-- Amount Column -->
+                  <ng-container matColumnDef="amount">
+                    <th mat-header-cell *matHeaderCellDef (click)="onSort('amount')" class="sortable-header">
+                      Amount {{ getSortIcon('amount') }}
+                    </th>
+                    <td mat-cell *matCellDef="let expense">{{ expense.amount | currency }}</td>
+                  </ng-container>
+
+                  <!-- Category Column -->
+                  <ng-container matColumnDef="category_name">
+                    <th mat-header-cell *matHeaderCellDef (click)="onSort('category_name')" class="sortable-header">
+                      Category {{ getSortIcon('category_name') }}
+                    </th>
+                    <td mat-cell *matCellDef="let expense">
+                      @if (isEditingCategory(expense.id)) {
+                        <mat-select
+                          [(ngModel)]="expense.category_id"
+                          (selectionChange)="stopEditingCategory(expense)"
+                          class="category-select"
+                        >
+                          @for (category of categories; track category.id) {
+                            <mat-option [value]="category.id">
+                              {{ category.category }}
+                            </mat-option>
+                          }
+                        </mat-select>
+                      } @else {
+                        <span (click)="startEditingCategory(expense.id)" class="category-text">
+                          {{ expense.category_name }}
+                        </span>
+                      }
+                    </td>
+                  </ng-container>
+
+                  <!-- Note Column -->
+                  <ng-container matColumnDef="note">
+                    <th mat-header-cell *matHeaderCellDef (click)="onSort('note')" class="sortable-header">
+                      Note {{ getSortIcon('note') }}
+                    </th>
+                    <td mat-cell *matCellDef="let expense">
+                      @if (isEditingNote(expense.id)) {
+                        <input
+                          type="text"
+                          [(ngModel)]="expense.note"
+                          (blur)="stopEditingNote()"
+                          (keydown.enter)="stopEditingNote()"
+                          (keydown.escape)="stopEditingNote()"
+                          class="note-input"
+                          #noteInput
+                        />
+                      } @else {
+                        <span (dblclick)="startEditingNote(expense.id)" class="note-text">
+                          {{ expense.note || '---'}}
+                        </span>
+                      }
+                    </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+              </mat-expansion-panel>
+            }
+          </mat-accordion>
+        }
+      </div>
+    </mat-tab>
+
+
+  </mat-tab-group>
+
+    </div>
+  </mat-sidenav-content>
+
+</mat-sidenav-container>
+

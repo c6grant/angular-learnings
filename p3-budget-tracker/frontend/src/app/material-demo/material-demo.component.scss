@@ -1,0 +1,104 @@
+// NOTICE: Minimal CSS needed! Material does the heavy lifting.
+
+// Sidenav container - must fill viewport height
+.sidenav-container {
+  height: 100vh;
+
+  mat-sidenav {
+    width: 250px;
+  }
+}
+
+// Simple container spacing - that's it!
+.demo-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+// Tab content padding
+.tab-content {
+  padding: 20px 0;
+}
+
+// Card spacing using Material's built-in margin
+.demo-card {
+  margin-bottom: 20px;
+
+  // Make form fields full width - Material handles the rest
+  .full-width {
+    width: 100%;
+    margin-bottom: 16px;
+  }
+
+  .checkbox-section {
+    margin: 16px 0;
+  }
+
+  .radio-section {
+    margin: 16px 0;
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    mat-radio-button {
+      margin-right: 16px;
+    }
+  }
+}
+
+// Button spacing - again, very simple
+.button-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+// Accordion spacing
+.demo-accordion {
+  margin-top: 20px;
+}
+
+// Table row hover effect - adds subtle highlight on hover
+.mat-mdc-table {
+  .mat-mdc-row:hover {
+    background-color: rgba(22, 21, 21, 0.05);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  // Column hover effect - highlights entire column
+  .mat-mdc-cell:hover,
+  .mat-mdc-header-cell:hover {
+    background-color: rgba(22, 21, 21, 0.05);
+    transition: background-color 0.2s ease;
+  }
+}
+
+// Toolbar spacer utility (common pattern)
+.spacer {
+  flex: 1 1 auto;
+}
+
+/*
+  THAT'S IT!
+
+  Compare this to building all these components from scratch:
+  - No complex flexbox layouts
+  - No button states (hover, active, disabled)
+  - No form field styling
+  - No responsive breakpoints
+  - No accessibility attributes
+  - No color variables
+
+  Material handles ALL of that automatically!
+
+  Your custom CSS should only handle:
+  1. Spacing/layout specific to YOUR app
+  2. Minor tweaks to Material's defaults
+  3. Custom business-specific styles
+*/
