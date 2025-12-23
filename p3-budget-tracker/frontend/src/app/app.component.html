@@ -1,5 +1,38 @@
-<!-- Uncomment to see the Material Demo -->
-<!-- <app-material-demo></app-material-demo> -->
+<!-- Auth0 Authentication Wrapper -->
+@if (auth.isLoading$ | async) {
+  <div class="auth-loading-state">
+    <div class="auth-loading-text">Loading...</div>
+  </div>
+}
 
-<!-- <app-homepage></app-homepage> -->
-<router-outlet />
+@if (auth.error$ | async; as error) {
+  <div class="auth-error-state">
+    <div class="auth-error-title">Oops!</div>
+    <div class="auth-error-message">Something went wrong</div>
+    <div class="auth-error-sub-message">{{ error.message }}</div>
+  </div>
+}
+
+@if (!(auth.isLoading$ | async) && !(auth.error$ | async)) {
+  @if (auth.isAuthenticated$ | async) {
+    <!-- User is logged in - show the app -->
+    <router-outlet />
+  } @else {
+    <!-- User not logged in - show beautiful login screen -->
+    <div class="auth-app-container">
+      <div class="auth-main-card-wrapper">
+        <img
+          src="https://cdn.auth0.com/quantum-assets/dist/latest/logos/auth0/auth0-lockup-en-ondark.png"
+          alt="Auth0 Logo"
+          class="auth-logo"
+        />
+        <h1 class="auth-main-title">Welcome to Budget Tracker</h1>
+
+        <div class="auth-action-card">
+          <p class="auth-action-text">Get started by signing in to your account</p>
+          <app-login-button />
+        </div>
+      </div>
+    </div>
+  }
+}

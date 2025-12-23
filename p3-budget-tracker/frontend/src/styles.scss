@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @use '@angular/material' as mat;
 @include mat.core();
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
@@ -25,3 +26,262 @@ $theme: mat.define-theme((
 html {
   @include mat.all-component-themes($theme);
 }
+
+/* ========================================
+   AUTH0 AUTHENTICATION STYLES
+   ======================================== */
+
+.auth-app-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+  padding: 1rem;
+  box-sizing: border-box;
+  background-color: #1a1e27;
+}
+
+.auth-loading-state, .auth-error-state {
+  background-color: #2d313c;
+  border-radius: 15px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+  padding: 3rem;
+  text-align: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.auth-loading-text {
+  font-size: 1.8rem;
+  font-weight: 500;
+  color: #a0aec0;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+.auth-error-state {
+  background-color: #c53030;
+  color: #fff;
+}
+
+.auth-error-title {
+  font-size: 2.8rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.auth-error-message {
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+}
+
+.auth-error-sub-message {
+  font-size: 1rem;
+  opacity: 0.8;
+}
+
+.auth-main-card-wrapper {
+  background-color: #262a33;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 3rem;
+  max-width: 500px;
+  width: 90%;
+  animation: fadeInScale 0.8s ease-out forwards;
+}
+
+.auth-logo {
+  width: 160px;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: slideInDown 1s ease-out forwards 0.2s;
+}
+
+.auth-main-title {
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: #f7fafc;
+  text-align: center;
+  margin-bottom: 1rem;
+  text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  animation: fadeIn 1s ease-out forwards 0.4s;
+  font-family: 'Inter', sans-serif;
+}
+
+.auth-action-card {
+  background-color: #2d313c;
+  border-radius: 15px;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3), 0 5px 15px rgba(0, 0, 0, 0.3);
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.8rem;
+  width: calc(100% - 2rem);
+  opacity: 0;
+  animation: fadeIn 1s ease-out forwards 0.6s;
+}
+
+.auth-action-text {
+  font-size: 1.25rem;
+  color: #cbd5e0;
+  text-align: center;
+  line-height: 1.6;
+  font-weight: 400;
+  font-family: 'Inter', sans-serif;
+}
+
+.button {
+  padding: 1.1rem 2.8rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  outline: none;
+  font-family: 'Inter', sans-serif;
+}
+
+.button:focus {
+  box-shadow: 0 0 0 4px rgba(99, 179, 237, 0.5);
+}
+
+.button.login {
+  background-color: #63b3ed;
+  color: #1a1e27;
+}
+
+.button.login:hover {
+  background-color: #4299e1;
+  transform: translateY(-5px) scale(1.03);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5);
+}
+
+.button.logout {
+  background-color: #fc8181;
+  color: #1a1e27;
+}
+
+.button.logout:hover {
+  background-color: #e53e3e;
+  transform: translateY(-5px) scale(1.03);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5);
+}
+
+.auth-header {
+  background: linear-gradient(135deg, #262a33 0%, #1a1e27 100%);
+  padding: 1.5rem 2.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(99, 179, 237, 0.1);
+  animation: slideInDown 0.6s ease-out;
+}
+
+.auth-profile-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1400px;
+  margin: 0 auto;
+  gap: 2rem;
+}
+
+.profile-picture {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  border: 2px solid rgba(99, 179, 237, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.profile-picture:hover {
+  transform: scale(1.08);
+  border-color: #63b3ed;
+  box-shadow: 0 6px 20px rgba(99, 179, 237, 0.4);
+}
+
+.profile-name {
+  font-size: 1.1rem;
+  margin-top: 0.5rem;
+  color: #f7fafc;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.profile-email {
+  font-size: 0.9rem;
+  text-align: center;
+  color: #a0aec0;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInScale {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slideInDown {
+  from { opacity: 0; transform: translateY(-70px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInUp {
+  from { opacity: 0; transform: translateY(50px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@media (max-width: 600px) {
+  .auth-main-card-wrapper {
+    padding: 2rem;
+    margin: 1rem;
+  }
+
+  .auth-main-title {
+    font-size: 2.2rem;
+  }
+
+  .button {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+  }
+
+  .auth-logo {
+    width: 120px;
+  }
+
+  .auth-profile-bar {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+

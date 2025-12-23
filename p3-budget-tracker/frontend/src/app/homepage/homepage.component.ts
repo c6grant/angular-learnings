@@ -28,6 +28,8 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { CurrencyPipe } from '@angular/common';
 import { Chart, ChartConfiguration, registerables } from 'chart.js';
 import { AddExpenseDialogComponent } from '../add-expense-dialog/add-expense-dialog.component';
+import { ProfileComponent } from '../components/profile.component';
+import { LogoutButtonComponent } from '../components/logout-button.component';
 
 interface Expense {
   id: number;
@@ -73,6 +75,7 @@ interface PayPeriod {
     MatSidenav,
     MatNavList,
     MatListItem,
+    MatDivider,
     MatSidenavContent,
     MatTableModule,
     CurrencyPipe,
@@ -85,6 +88,8 @@ interface PayPeriod {
     MatInputModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    ProfileComponent,
+    LogoutButtonComponent,
   ],
   templateUrl: './homepage.component.html',
   styleUrl: './homepage.component.scss',

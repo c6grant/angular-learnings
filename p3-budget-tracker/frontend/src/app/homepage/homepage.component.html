@@ -21,13 +21,26 @@
       </button>
     </mat-toolbar>
 
+    <!-- Profile Section -->
+    <div class="sidenav-profile">
+      <app-profile />
+    </div>
+
+    <mat-divider></mat-divider>
+
     <mat-nav-list>
       <mat-list-item (click)="toggleSidenav()">
         <mat-icon matListItemIcon>home</mat-icon>
         <span matListItemTitle>Home</span>
       </mat-list-item>
-
     </mat-nav-list>
+
+    <mat-divider></mat-divider>
+
+    <!-- Logout Section -->
+    <div class="sidenav-logout">
+      <app-logout-button />
+    </div>
   </mat-sidenav>
 
   <!-- MAIN CONTENT -->
